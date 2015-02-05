@@ -2,16 +2,48 @@
 <html>
 <head>
 	<title>Nico Higuera's Legendary Grandfather Clock</title>
-	<link rel="stylesheet" type="text/css" href="css/clock.css">
+  <link rel="stylesheet" type="text/css" href="css/clock.css">
+  <link rel="stylesheet" type="text/css" href="css/alarm.css">
 	<meta charset="UTF-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="js/index.js"></script>
 </head>
 <body>
 	<p class="makeItFancy">Nico Higuera's clock</p>
 	<h1 id="clock">look at it go</h1>
 	<div id="forecastLabel"></div>
 	<img id="forecastIcon" src="img/cloudy.jpg" alt="Forecast Image">
-	<p>No alarm set</p>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <div id="alarmContainer">
+    <div id="alarmHeader" class="flexable">
+      <h2>Alarms</h2>
+        <input type="button" value="Add Alarm" class="button" onClick="showAlarmPopup()"/>
+      </div>
+    <div id="alarms"></div>
+  </div>
+
+  <div id="mask" class="hide">
+  </div>
+
+  <div id="popup" class="hide">
+    <h2>Add Alarm</h2>
+    <div id="timeContainer">
+      <select id="hours">
+        <option>01</option>
+      </select>
+      <select id="mins">
+        <option>01</option>
+      </select>
+      <select id="ampm">
+        <option>am</option>
+        <option>pm</option>
+      </select>
+    </div>
+    <input type="text" id="alarmName" placeholder="Alarm Name" />      
+    <div class="flexable">
+      <input type="button" value="Cancel" class="button" onClick="hideAlarmPopup()" />
+      <input type="button" value="Save Alarm" class="button" onClick="addAlarm()"/>
+    </div>
+  </div>
   <script src="js/clock.js"></script>
 </body>
 </html>
