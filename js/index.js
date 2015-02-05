@@ -6,7 +6,6 @@ Set the onclick property to showAlarmPopup() in the index.html file for the Add 
 function showAlarmPopup() {
   $('#mask').removeClass("hide");
   $('#popup').removeClass("hide");
-  console.log$('#popup'));
 }
 
 /*hideAlarmPopup - no parameters
