@@ -18,26 +18,42 @@ function hideAlarmPopup() {
   $("#popup").addClass("hide");
 }
 
-/*insertAlarm - 4 parameters: hours, mins, ampm, and alarmName.
-Use jQuery to create a new blank div, $("<div>").
-Add the class flexable to the new blank div.
-Use the jQuery append() method to add 2 more div elements within the new flexable div.
-Set the class to name and html to the alarmName variable.
-Set the class to time and html to the concatenation of hours, colon, mins, ampm variables. 
-Use the append()method to add the blank div to $("#alarms").*/
-
-function insertAlarm(hours, mins, ampm, alarmName) {
+function insertAlarm(time, alarmName, objectId) {
   function newDiv (className, html) {
     var div = $("<div>").addClass(className);
     div.html(html);
     return div;
   }
 
+  function delButton(objectId) {
+    var button = $("<button>");
+    button.html("click here to delete this alarm");
+    button.bind("click", { "objectId" : objectId }, function deleteAlarm(event) {
+      var id = event.data.objectId;
+      console.log("deleting: " + id);
+      var alarm = Parse.Object.extend("Alarm");
+      var query = new Parse.Query(alarm);
+      query.get(id, {
+        success: function(alarm) {
+          // The object was retrieved successfully.
+          alarm.destroy({});
+          $('#' + id).remove();
+          console.log('successfully deleted');
+        },
+        error: function(object, error) {
+          // The object was not retrieved successfully.
+          // error is a Parse.Error with an error code and description.
+          console.log(error);
+        }
+      });
+    });
+    return button;
+  }
+
   $("#alarms").append(
-    $("<div>").addClass("flexable").html(
-      newDiv("name", alarmName).append(
-      newDiv("time", hours + ":" + mins + ampm))
-    )
+    $("<div>").attr('id', objectId).addClass("flexable").html(
+     newDiv("name", alarmName).append(
+     newDiv("time", time).append(delButton(objectId))))
   ); 
 }
 
@@ -52,8 +68,35 @@ function addAlarm() {
   var hours = $("#hours option:selected").text(),
       mins = $("#mins option:selected").text(),
       ampm = $("#ampm option:selected").text(),
-      alarmName = $("#alarmName option:selected").text();
+      alarmName = $("#alarmName").val();
 
-  insertAlarm(hours, mins, ampm, alarmName);
-  hideAlarmPopup();
+  var time = hours + ":" + mins + ampm;
+
+  var AlarmObject = Parse.Object.extend("Alarm");
+  var alarmObject = new AlarmObject();
+  var toSave = {"time" : time, "alarmName": alarmName};
+  console.log(toSave);
+  alarmObject.save(toSave, {
+    success: function(object) {
+      console.log(object);
+      insertAlarm(time, alarmName, object.id);
+      hideAlarmPopup();
+    }
+  });
+
 }
+
+function getAllAlarms() {
+  Parse.initialize("fs4RNotawuzHNFsKN0WEaPgJrfJ23wvJu0tsBnMj", "EnETys9VkCKgF2gu4LYNObf4JqCZRiTi2PiuKbwF");
+  var AlarmObject = Parse.Object.extend("Alarm");
+  var query = new Parse.Query(AlarmObject);
+  query.find({
+      success: function(results) {
+        for (var i = 0; i < results.length; i++) { 
+          insertAlarm(results[i].get("time"), results[i].get("alarmName"), results[i].id);
+        }
+      }
+  });
+}
+
+getAllAlarms();
