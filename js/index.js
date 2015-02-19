@@ -145,7 +145,7 @@ function signinCallback(authResult) {
   if (authResult['status']['signed_in']) {
     // Update the app to reflect a signed in user
     // Hide the sign-in button now that the user is authorized, for example:
-    $('#signinButton').setAttribute('style', 'display: none');
+    $('#signinButton').attr('style', 'display: none');
     $('#username').html(JSON.stringify(authResult));
   } else {
     // Update the app to reflect a signed out user
