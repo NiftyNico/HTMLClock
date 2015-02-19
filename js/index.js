@@ -146,8 +146,9 @@ function signinCallback(authResult) {
     // Update the app to reflect a signed in user
     // Hide the sign-in button now that the user is authorized, for example:
     $('#signinButton').attr('style', 'display: none');
-    $('#username').html(JSON.stringify(gapi.auth.signIn({ 'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile' });
-));
+    $('#username').html(JSON.stringify(gapi.auth.signIn({ 
+      'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile' });
+    ));
   } else {
     // Update the app to reflect a signed out user
     // Possible error values:
