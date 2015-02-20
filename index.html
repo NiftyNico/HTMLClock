@@ -15,28 +15,33 @@
 	<h1 id="clock">look at it go</h1>
 	<div id="forecastLabel"></div>
 	<img id="forecastIcon" src="img/cloudy.jpg" alt="Forecast Image">
-  <div id="alarmContainer">
-    <div id="alarmHeader" class="flexable">
-      <h2>Alarms</h2>
-        <input type="button" value="Add Alarm" class="button" onClick="showAlarmPopup()"/>
-      </div>
-    <div id="alarms"></div>
-  </div>
 
   <div id="mask" class="hide">
   </div>
 
-  <p id="username">Please log in</p>
-  <span id="signinButton">
-    <span
-      class="g-signin"
-      data-callback="signinCallback"
-      data-clientid="281992256784-5sfahnmhcvc37oasjkc69l5solvg1mjd.apps.googleusercontent.com"
-      data-cookiepolicy="single_host_origin"
-      data-requestvisibleactions="http://schema.org/AddAction"
-      data-scope="https://www.googleapis.com/auth/plus.login">
+  <div id="authDiv">
+    <p id="username"></p>
+    <div id="alarmContainer">
+      <div id="alarmHeader" class="flexable">
+        <h2>Alarms</h2>
+          <input type="button" value="Add Alarm" class="button" onClick="showAlarmPopup()"/>
+        </div>
+      <div id="alarms"></div>
+    </div>
+    <button onClick=showLoggedOut()>Logout</button>
+  </div>
+  <div id="unAuthDiv">
+    <span id="signinButton">
+      <span
+        class="g-signin"
+        data-callback="signinCallback"
+        data-clientid="281992256784-5sfahnmhcvc37oasjkc69l5solvg1mjd.apps.googleusercontent.com"
+        data-cookiepolicy="single_host_origin"
+        data-requestvisibleactions="http://schema.org/AddAction"
+        data-scope="https://www.googleapis.com/auth/plus.profile.emails.read">
+      </span>
     </span>
-  </span>
+  </div>
 
   <div id="popup" class="hide">
     <h2>Add Alarm</h2>

@@ -64,7 +64,7 @@ Call insertAlarm(hours, mins, ampm, alarmName);
 Call hideAlarmPopup();
 Set the onclick property to addAlarm() in the index.html file for the Set Alarm button.*/
 
-function addAlarm() {
+function addAlarm(username) {
   var hours = $("#hours option:selected").text(),
       mins = $("#mins option:selected").text(),
       ampm = $("#ampm option:selected").text(),
@@ -74,7 +74,7 @@ function addAlarm() {
 
   var AlarmObject = Parse.Object.extend("Alarm");
   var alarmObject = new AlarmObject();
-  var toSave = {"time" : time, "alarmName": alarmName};
+  var toSave = {"time" : time, "alarmName": alarmName, "username" : username};
   console.log(toSave);
   alarmObject.save(toSave, {
     success: function(object) {
@@ -86,10 +86,11 @@ function addAlarm() {
 
 }
 
-function getAllAlarms() {
+function getAllAlarms(username) {
   Parse.initialize("fs4RNotawuzHNFsKN0WEaPgJrfJ23wvJu0tsBnMj", "EnETys9VkCKgF2gu4LYNObf4JqCZRiTi2PiuKbwF");
   var AlarmObject = Parse.Object.extend("Alarm");
   var query = new Parse.Query(AlarmObject);
+  query.equalTo("username", username);
   query.find({
       success: function(results) {
         for (var i = 0; i < results.length; i++) { 
@@ -99,7 +100,6 @@ function getAllAlarms() {
   });
 }
 
-getAllAlarms();
 
 
 
@@ -136,20 +136,39 @@ getAllAlarms();
 
 
 
+function showLoggedInView(username) {
+  $('#authDiv').show();
+  $('#unAuthDiv').hide();
+  $('#username').html('Currently logged in as ' + username);
+  getAllAlarms(username);
+}
 
+function showLoggedOut() {
+  $('#authDiv').hide();
+  $('#unAuthDiv').show();
+}
 
-
-
+function logoutUser() {
+  $.get('https://accounts.google.com/logout', function (data){
+    console.log('Logged out');
+    showLoggedOut();
+  });
+}
 
 function signinCallback(authResult) {
   if (authResult['status']['signed_in']) {
     // Update the app to reflect a signed in user
     // Hide the sign-in button now that the user is authorized, for example:
-    $('#signinButton').attr('style', 'display: none');
-    $('#username').html(JSON.stringify(gapi.auth.signIn({ 
-      'scope': 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile' 
-    })));
+    gapi.client.load('plus', 'v1').then(function() { 
+      req = gapi.client.plus.people.get({userId : 'me'});  
+      req.execute(function(resp) {  
+        showLoggedInView(resp.emails[0].value);
+      });
+    });
+    console.log(authResult);
   } else {
+    showLoggedOut();
+
     // Update the app to reflect a signed out user
     // Possible error values:
     //   "user_signed_out" - User is signed-out
