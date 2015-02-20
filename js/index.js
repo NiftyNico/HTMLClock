@@ -75,11 +75,8 @@ function addAlarm(username) {
   var AlarmObject = Parse.Object.extend("Alarm");
   var alarmObject = new AlarmObject();
   var toSave = {"time" : time, "alarmName": alarmName, "username" : username};
-  console.log(toSave);
   alarmObject.save(toSave, {
     success: function(object) {
-      console.log(object);
-      console.log(username);
       insertAlarm(time, alarmName, object.id);
       hideAlarmPopup();
     }
@@ -168,7 +165,6 @@ function signinCallback(authResult) {
         showLoggedInView(resp.emails[0].value);
       });
     });
-    console.log(authResult);
   } else {
     showLoggedOut();
 
