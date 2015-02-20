@@ -28,7 +28,7 @@
         </div>
       <div id="alarms"></div>
     </div>
-    <button onClick=showLoggedOut()>Logout</button>
+    <a href="https://accounts.google.com/logout" target="_blank" onClick=showLoggedOut()>Logout</a>
   </div>
   <div id="unAuthDiv">
     <span id="signinButton">
@@ -74,7 +74,7 @@
     <input type="text" id="alarmName" placeholder="Alarm Name" />      
     <div class="flexable">
       <input type="button" value="Cancel" class="button" onClick="hideAlarmPopup()" />
-      <input type="button" value="Save Alarm" class="button" onClick="addAlarm()"/>
+      <input type="button" id="saveAlarmButton" value="Save Alarm" class="button"/>
     </div>
   </div>
   <script src="js/clock.js"></script>

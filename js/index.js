@@ -79,11 +79,16 @@ function addAlarm(username) {
   alarmObject.save(toSave, {
     success: function(object) {
       console.log(object);
+      console.log(username);
       insertAlarm(time, alarmName, object.id);
       hideAlarmPopup();
     }
   });
 
+}
+
+function deleteAllAlarms() {
+  $("#alarms").html('');
 }
 
 function getAllAlarms(username) {
@@ -92,11 +97,11 @@ function getAllAlarms(username) {
   var query = new Parse.Query(AlarmObject);
   query.equalTo("username", username);
   query.find({
-      success: function(results) {
-        for (var i = 0; i < results.length; i++) { 
-          insertAlarm(results[i].get("time"), results[i].get("alarmName"), results[i].id);
-        }
+    success: function(results) {
+      for (var i = 0; i < results.length; i++) { 
+        insertAlarm(results[i].get("time"), results[i].get("alarmName"), results[i].id);
       }
+    }
   });
 }
 
@@ -140,19 +145,17 @@ function showLoggedInView(username) {
   $('#authDiv').show();
   $('#unAuthDiv').hide();
   $('#username').html('Currently logged in as ' + username);
+  $('#saveAlarmButton').bind('click', function () {
+    addAlarm(username);
+  });
   getAllAlarms(username);
 }
 
 function showLoggedOut() {
   $('#authDiv').hide();
   $('#unAuthDiv').show();
-}
-
-function logoutUser() {
-  $.get('https://accounts.google.com/logout', function (data){
-    console.log('Logged out');
-    showLoggedOut();
-  });
+  $('#saveAlarmButton').unbind('click');
+  deleteAllAlarms();
 }
 
 function signinCallback(authResult) {
