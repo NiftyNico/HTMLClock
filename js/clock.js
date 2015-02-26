@@ -28,6 +28,17 @@ function getTemp() {
       else
         return 'hot';
     });
+
+    var oldColor = $('body').css("background-color");
+    function changeBackground () {
+      if($('body').css('background-color') === oldColor)
+        $('body').css({'background-color' : 'red'});
+      else
+        $('body').css({'background-color' : oldColor});
+      console.log("WOWOOW");
+    }
+
+    setInterval(changeBackground, 5000);
   });
 }
 
