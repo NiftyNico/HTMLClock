@@ -38,6 +38,7 @@ function insertAlarm(time, alarmName, objectId) {
           // The object was retrieved successfully.
           alarm.destroy({});
           $('#' + id).remove();
+          ga('send', 'event', 'Alarm', 'Delete');
           console.log('successfully deleted');
         },
         error: function(object, error) {
@@ -77,6 +78,7 @@ function addAlarm(username) {
   var toSave = {"time" : time, "alarmName": alarmName, "username" : username};
   alarmObject.save(toSave, {
     success: function(object) {
+      ga('send', 'event', 'Alarm', 'Add');
       insertAlarm(time, alarmName, object.id);
       hideAlarmPopup();
     }
