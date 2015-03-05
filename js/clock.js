@@ -38,7 +38,7 @@ function getTemp() {
       console.log("WOWOOW");
     }
 
-    setInterval(changeBackground, 5000);
+    setInterval(changeBackground, 10000);
   });
 }
 

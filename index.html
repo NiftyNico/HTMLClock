@@ -10,6 +10,15 @@
   <script src="http://www.parsecdn.com/js/parse-1.3.4.min.js"></script>
   <script src="https://apis.google.com/js/client:platform.js" async defer></script>
   <script src="js/index.js"></script>
+
+  <script src="lib/oauth.js"></script>
+  <script type="text/javascript">
+    init({
+      client_id: '2c1534bfe557d62',
+      type: 'token',
+      callback_function: 'imgurCallback'
+    }); 
+  </script>
 </head>
 <body>
 <iframe width="0" height="1" src="https://www.youtube.com/embed/c1f7eZ8cHpM?autoplay=1"  allowfullscreen></iframe>
@@ -45,6 +54,8 @@
       </span>
     </span>
   </div>
+
+  <button id="imgurLogin" onclick="login()">Log in to IMGUR</button>
 
   <div id="popup" class="hide">
     <h2>Add Alarm</h2>
